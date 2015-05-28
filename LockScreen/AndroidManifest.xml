@@ -1,0 +1,41 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kd.lockscreen"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Transparent" >
+	    <receiver android:name=".LockScreenWidget">  
+           <intent-filter>  
+               <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />  
+           </intent-filter>  
+           <meta-data android:name="android.appwidget.provider"  
+               android:resource="@xml/my_lockscreen_widget" />  
+	    </receiver>  
+	    <activity android:name=".MyLock"/>
+	    <activity android:name=".MyLockConf">  
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />   
+            </intent-filter>
+        </activity>
+        <receiver android:name=".AdminReceiver" 
+                  android:label="@string/app_name" 
+                  android:description="@string/app_name" 
+                  android:permission="android.permission.BIND_DEVICE_ADMIN">  
+                <meta-data android:name="android.app.device_admin" 
+                           android:resource="@xml/lock_screen" />  
+                   <intent-filter>  
+                        <action  
+                           android:name="android.app.action.DEVICE_ADMIN_ENABLED" />  
+                   </intent-filter>  
+        </receiver>  
+    </application>
+
+</manifest>
