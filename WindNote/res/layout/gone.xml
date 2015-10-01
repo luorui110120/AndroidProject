@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <TableRow >
+        <TextView
+            android:text="@string/gone_time"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:background="@color/transparent" />
+        <EditText 
+            android:id="@+id/time_txt"
+            android:inputType="number"
+            android:imeOptions="actionNext"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:maxLength="4"
+            android:padding="2dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:background="@drawable/txt_bg" />
+    </TableRow>
+    <TableRow >
+        <TextView
+            android:text="@string/gone_count"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:background="@color/transparent" />
+        <EditText 
+            android:id="@+id/count_txt"
+            android:inputType="number"
+            android:imeOptions="actionDone"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:maxLength="4"
+            android:padding="2dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:background="@drawable/txt_bg" />
+    </TableRow>
+    <TableRow>
+        <Button 
+            android:id="@+id/gone_cancel"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+           	android:layout_marginTop="5dp"
+            android:text="@string/leave_btn"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:background="@color/transparent"/>
+        <Button 
+            android:id="@+id/gone_confirm"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/gone_btn"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:background="@color/transparent"/>
+    </TableRow>
+</TableLayout>
