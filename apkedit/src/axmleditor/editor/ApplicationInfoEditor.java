@@ -1,9 +1,11 @@
 package axmleditor.editor;
 
+import android.util.Log;
 import axmleditor.decode.AXMLDoc;
 import axmleditor.decode.BTagNode;
 import axmleditor.decode.BXMLNode;
 import axmleditor.decode.StringBlock;
+import axmleditor.decode.BTagNode.Attribute;
 import axmleditor.utils.TypedValue;
 
 /**
@@ -58,6 +60,26 @@ public class ApplicationInfoEditor extends BaseEditor<ApplicationInfoEditor.Edit
     @Override
     protected BXMLNode findNode() {
         return doc.getApplicationNode();
+    }
+    public String getApplicationName() {
+        BXMLNode manifest = doc.getManifestNode();
+        for(BXMLNode node : manifest.getChildren())
+        {
+        	if( "application".equals( doc.getStringBlock().getStringFor(((BTagNode)node).getName() )))
+        	{
+        		BTagNode m = (BTagNode)node;
+                Attribute[] att =  m.getAttribute();
+                for(Attribute a: att)
+                {
+                //	Log.e("Application", doc.getStringBlock().getStringFor(a.mName));
+                	if("name".equals(doc.getStringBlock().getStringFor(a.mName)))
+                	{
+                		return doc.getStringBlock().getStringFor(a.mString);
+                	}
+                }
+			}
+        }
+        return "";
     }
 
     @Override

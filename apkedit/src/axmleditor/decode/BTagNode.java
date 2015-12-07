@@ -314,6 +314,8 @@ public class BTagNode extends BXMLNode {
 					", mValue=" + mValue +
 					'}';
 		}
+
+
 	}
 	
 	private int[] subArray(int[] src, int start, int len){

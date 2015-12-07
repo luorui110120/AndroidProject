@@ -21,7 +21,10 @@ public abstract class BaseEditor<T> implements XEditor {
     protected int namespace;
 
     protected int attr_name;
+    protected int attr_label;
     protected int attr_value;
+    protected int attr_persistent;
+    protected int attr_process;
 
     protected T editorInfo;
 

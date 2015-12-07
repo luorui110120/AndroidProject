@@ -10,12 +10,17 @@ public interface XEditor {
     String NODE_MANIFEST="manifest";
     String NODE_APPLICATION="application";
     String NODE_METADATA="meta-data";
+    String NODE_ACTIVITY="activity";
+    String NODE_SERVICE="service";
 
     String NODE_USER_PREMISSION ="uses-permission";
     String NODE_SUPPORTS_SCREENS="supports-screens";
 
     String NAME = "name";
     String VALUE = "value";
+    String LABEL = "label";
+    String PERSISTENT = "persistent";
+    String PROCESS = "process";
 
     void setEditor(String attrName, String attrValue);
 

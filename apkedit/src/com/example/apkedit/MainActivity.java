@@ -16,10 +16,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import axmleditor.decode.AXMLDoc;
+import axmleditor.editor.ActivityEditor;
 import axmleditor.editor.ApplicationInfoEditor;
 import axmleditor.editor.MetaDataEditor;
 import axmleditor.editor.PackageInfoEditor;
 import axmleditor.editor.PermissionEditor;
+import axmleditor.editor.ServiceEditor;
 
 public class MainActivity extends Activity
 {
@@ -48,10 +50,10 @@ public class MainActivity extends Activity
 					//反编译 dex文件
 					String [] args_baksmali  = {"-d", "/system/framework", "-x", "/data/local/tmp/test.odex", "-o", "/data/local/tmp/classes"};
 					String [] args_smali = {"-o", "/data/local/tmp/classes.dex", "/data/local/tmp/classes"};
-					baksmalimain.main(args_baksmali);
-					smalimain.main(args_smali);
+				//	baksmalimain.main(args_baksmali);
+				//	smalimain.main(args_smali);
 					//对 apk 进行签名
-					apksigner.Main.main();
+				//	apksigner.Main.main();
 					//编译 axml 文件
 					patchAXML("/data/local/tmp/AXML.xml");
 					
@@ -74,14 +76,17 @@ public class MainActivity extends Activity
 
 
         ApplicationInfoEditor applicationInfoEditor = new ApplicationInfoEditor(doc);
+        System.out.println("getApplicationName:"+ applicationInfoEditor.getApplicationName());
         applicationInfoEditor.setEditorInfo(new ApplicationInfoEditor.EditorInfo(appName, false));
         applicationInfoEditor.commit();
 
         //更多修改可以在下面添加
         
         PackageInfoEditor packageInfoEditor = new PackageInfoEditor(doc);
+        System.out.println("getPackageName:"+ packageInfoEditor.getPackageName());
         packageInfoEditor.setEditorInfo(new PackageInfoEditor.EditorInfo(12563, "abcde", null));
         packageInfoEditor.commit();
+        
 
 
         PermissionEditor permissionEditor = new PermissionEditor(doc);
@@ -93,8 +98,20 @@ public class MainActivity extends Activity
         permissionEditor.commit();
 
         MetaDataEditor metaDataEditor = new MetaDataEditor(doc);
-        metaDataEditor.setEditorInfo(new MetaDataEditor.EditorInfo("UMENG_CHANNEL", "apkeditor"));
+        metaDataEditor.setEditorInfo(new MetaDataEditor.EditorInfo("UMENG_CHANNEL2", "apkeditor123"));
         metaDataEditor.commit();
+        
+        //add activity
+        ActivityEditor activityEditor = new ActivityEditor(doc);
+        System.out.println("MainActivity:" + activityEditor.findMainActivity());
+        activityEditor.setEditorInfo(new ActivityEditor.EditorInfo("com.exp.myactivity", "mylabel"));
+        activityEditor.commit();
+        
+        
+        //add service
+        ServiceEditor serviceEditor = new ServiceEditor(doc);
+        serviceEditor.setEditorInfo(new ServiceEditor.EditorInfo("com.InitService", "true", ":init"));
+        serviceEditor.commit();
        
         doc.build(new FileOutputStream(newXML));
         doc.release();
