@@ -243,7 +243,7 @@ public class TouchView {
 			}
 			break;
 		case KeyItemInfo.TYPE_TOOL:
-			KeyItemInfo.doToolEvent(mContext, info.getType(), mTouchMainView);
+			KeyItemInfo.doToolEvent(mContext, info.getData(), mTouchMainView);
 			break;
 		}
 		boolean enable = mSetting.isEnableVirbrator();

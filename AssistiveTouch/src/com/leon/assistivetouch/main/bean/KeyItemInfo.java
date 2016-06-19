@@ -124,9 +124,10 @@ public class KeyItemInfo {
 			return;
 		}
 	}
-	public static void doToolEvent (Context context, int index, Object data)
+	public static void doToolEvent (Context context, String index, Object data)
 	{
-		switch(index) {
+		int key = Integer.parseInt(index);
+		switch(key) {
 		case TOOL_SCREENSHOT:
 		{
 			/*
