@@ -59,6 +59,7 @@ public class PickUpToolActivity extends ListActivity{
 		mDataList = new ArrayList<KeyItemInfo>();
 		mDataList.add(getInfo(KeyItemInfo.TOOL_SCREENSHOT));
 		mDataList.add(getInfo(KeyItemInfo.TOOL_KILL_PROCESS));
+		mDataList.add(getInfo(KeyItemInfo.TOOL_NETWORK_MOBILE));
 		mAdapter = new PickUpToolsAdapter(this, mDataList);
 	}
 	

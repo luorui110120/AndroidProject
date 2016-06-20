@@ -53,6 +53,18 @@ public class ToolAction
 		String screnncap = "sendevent /dev/input/event1 1 116 1;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 1;sendevent /dev/input/event1 0 0 0;sleep 1;sendevent /dev/input/event1 1 116 0;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 0;sendevent /dev/input/event1 0 0 0";
 		RootContext.getInstance().runCommand(screnncap);
 	}
+	// 流量开关
+	public static void doNetWorkSwitch(boolean bflags)
+	{
+		if(bflags)
+		{
+			RootContext.getInstance().runCommand("svc data enable");
+		}
+		else
+		{
+			RootContext.getInstance().runCommand("svc data disable");
+		}
+	}
 	public static void doKillPackName(String PackName)
 	{
 		RootContext.getInstance().runCommand("am force-stop " + PackName);

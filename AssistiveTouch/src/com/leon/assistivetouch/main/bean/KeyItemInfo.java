@@ -27,6 +27,7 @@ public class KeyItemInfo {
 	private String title;
 	private String summary;
 	private Drawable icon;
+	private Drawable icon_pressed;
 	private int type;
 	private String data;
 	
@@ -47,11 +48,24 @@ public class KeyItemInfo {
 	
 	public static final int TOOL_SCREENSHOT = 1;
 	public static final int TOOL_KILL_PROCESS = 2;
+	public static final int TOOL_NETWORK_MOBILE = 3;
 	
 	public KeyItemInfo () {}
 	
 	public KeyItemInfo (Context context, String title, int icon, int type, String data) {
 		this(title, context.getResources().getDrawable(icon), type, data);
+	}
+	
+	public KeyItemInfo (Context context, String title, int icon, int icon_pressed, int type, String data) {
+		this(title, context.getResources().getDrawable(icon), context.getResources().getDrawable(icon_pressed), type, data);
+	}
+	
+	public KeyItemInfo (String title, Drawable icon, Drawable icon_pressed, int type, String data) {
+		this.title = title;
+		this.icon = icon;
+		this.icon_pressed = icon_pressed;
+		this.type = type;
+		this.data = data;
 	}
 	
 	public KeyItemInfo (String title, Drawable icon, int type, String data) {
@@ -73,6 +87,14 @@ public class KeyItemInfo {
 	public void setIcon(Drawable icon) {
 		this.icon = icon;
 	}
+	
+	public Drawable getIconPressed() {
+		return icon_pressed;
+	}
+	public void setIconPressed(Drawable icon_pressed) {
+		this.icon_pressed = icon_pressed;
+	}
+	
 	public int getType() {
 		return type;
 	}
@@ -156,6 +178,21 @@ public class KeyItemInfo {
 		}
 		case TOOL_KILL_PROCESS:
 			ToolAction.doKillProcess(context);
+			break;
+		case TOOL_NETWORK_MOBILE:
+		{
+			boolean bNetWork = Util.isNetWorkMobile(context);
+			ToolAction.doNetWorkSwitch(!bNetWork);
+			if(!bNetWork)
+			{
+				L.Toast(R.string.tool_network_mobile_on, context);
+			}
+			else
+			{
+				L.Toast(R.string.tool_network_mobile_off, context);
+			}
+			
+		}
 			break;
 		default:
 			break;
@@ -270,7 +307,7 @@ public class KeyItemInfo {
 		else if(type == TYPE_TOOL)
 		{
 			int key = Integer.parseInt(data);
-			int res = -1;
+			int res = -1, res_pressed=-1;
 			String title = "";
 			switch(key) {
 			case TOOL_SCREENSHOT:
@@ -281,10 +318,22 @@ public class KeyItemInfo {
 				title = context.getString(R.string.key_kill_process_name);
 				res = R.drawable.ic_kill_process;
 				break;
+			case TOOL_NETWORK_MOBILE:
+				title = context.getString(R.string.key_network_mobile_name);
+				res = R.drawable.ic_network_data;
+				res_pressed = R.drawable.ic_network_data_pressed;
+				break;
 			default:
 				break;
 			}
-			return new KeyItemInfo(context, title, res, type, data);
+			if(res_pressed == -1)
+			{
+				return new KeyItemInfo(context, title, res, type, data);
+			}
+			else
+			{
+				return new KeyItemInfo(context, title, res, res_pressed, type, data);
+			}
 		}
 		return null;
 	}

@@ -3,8 +3,10 @@ package com.leon.assistivetouch.main.ui;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 import com.leon.assistivetouch.main.R;
 import com.leon.assistivetouch.main.bean.KeyItemInfo;
+import com.leon.assistivetouch.main.util.L;
 import com.leon.assistivetouch.main.util.Util;
 
 /** 
@@ -35,6 +38,7 @@ public class TouchPanelView extends LinearLayout{
 	private Context mContext;
 	
 	private View mKeysLayout;
+	private View mKeysMain;
 	private GridView mKeyGridView;
 	private OnKeyClickListener mOnKeyClickListener;
 	private KeyGridAdapter mAdapter;
@@ -54,10 +58,11 @@ public class TouchPanelView extends LinearLayout{
 	
 	private void init() {
 		inflate(mContext, R.layout.touch_panel_view, this);
-		mKeysLayout = findViewById(R.id.top_view_keys_main);
+		mKeysMain = findViewById(R.id.top_view_keys_main);
+		mKeysLayout = findViewById(R.id.top_view_keys_layout);
 		mKeyGridView = (GridView) findViewById(R.id.key_grid_view);
 		// 当点击外面空白部分时直接 隐藏 主窗口
-		mKeysLayout.setOnTouchListener(new OnTouchListener()
+		mKeysMain.setOnTouchListener(new OnTouchListener()
 		{
 			@Override
 			public boolean onTouch(View v, MotionEvent event)
@@ -66,7 +71,7 @@ public class TouchPanelView extends LinearLayout{
 				int x = (int) event.getX();
                 int y = (int) event.getY();
                 Rect rect = new Rect();
-                mKeysLayout.getGlobalVisibleRect(rect);
+                mKeysMain.getGlobalVisibleRect(rect);
                 if (rect.contains(x, y)) {
                     if (mOnKeyClickListener != null) {
         				mOnKeyClickListener.onClick(0, new KeyItemInfo("", null, KeyItemInfo.TYPE_KEY, String.valueOf(KeyItemInfo.KEY_HIDE)));
@@ -132,6 +137,22 @@ public class TouchPanelView extends LinearLayout{
 		
 		@Override
 		public int getCount() {
+			// 下面这段为了 横竖屏切换
+			if (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+			{  
+				//此处相当于布局文件中的Android:layout_gravity属性  
+				LinearLayout.LayoutParams lp = (LayoutParams) mKeysLayout.getLayoutParams();
+				lp.gravity = Gravity.CENTER;  
+				mKeysLayout.setLayoutParams(lp); 
+			}  
+			else
+			{
+				//此处相当于布局文件中的Android:layout_gravity属性  
+				LinearLayout.LayoutParams lp = (LayoutParams) mKeysLayout.getLayoutParams();
+				lp.gravity = Gravity.RIGHT;  
+				mKeysLayout.setLayoutParams(lp); 
+			}
+			
 			return mList.size();
 		}
 
@@ -147,6 +168,7 @@ public class TouchPanelView extends LinearLayout{
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+			
 			final ViewHolder holder;
 			if (convertView == null || convertView.getTag() == null) {
 				convertView = inflater.inflate(R.layout.key_grid_item, null, false);
@@ -171,7 +193,17 @@ public class TouchPanelView extends LinearLayout{
 				} else {
 					holder.title.setText(info.getTitle());
 				}
-				holder.icon.setImageDrawable(info.getIcon());
+				//根据不同手机状态显示 不同图标
+				if(info.getType() == KeyItemInfo.TYPE_TOOL &&
+				Integer.parseInt(info.getData()) == KeyItemInfo.TOOL_NETWORK_MOBILE &&
+				Util.isNetWorkMobile(mContext))
+				{
+					holder.icon.setImageDrawable(info.getIconPressed());
+				}
+				else
+				{
+					holder.icon.setImageDrawable(info.getIcon());
+				}
 			}
 			return convertView;
 		}
