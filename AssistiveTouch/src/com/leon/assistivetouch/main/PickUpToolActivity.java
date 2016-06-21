@@ -60,6 +60,7 @@ public class PickUpToolActivity extends ListActivity{
 		mDataList.add(getInfo(KeyItemInfo.TOOL_SCREENSHOT));
 		mDataList.add(getInfo(KeyItemInfo.TOOL_KILL_PROCESS));
 		mDataList.add(getInfo(KeyItemInfo.TOOL_NETWORK_MOBILE));
+		mDataList.add(getInfo(KeyItemInfo.TOOL_AIRPLANE_MODE));
 		mAdapter = new PickUpToolsAdapter(this, mDataList);
 	}
 	

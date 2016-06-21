@@ -193,12 +193,39 @@ public class TouchPanelView extends LinearLayout{
 				} else {
 					holder.title.setText(info.getTitle());
 				}
-				//根据不同手机状态显示 不同图标
-				if(info.getType() == KeyItemInfo.TYPE_TOOL &&
-				Integer.parseInt(info.getData()) == KeyItemInfo.TOOL_NETWORK_MOBILE &&
-				Util.isNetWorkMobile(mContext))
+				//根据不同手机状态, 显示不同图标
+				if(info.getType() == KeyItemInfo.TYPE_TOOL)
 				{
-					holder.icon.setImageDrawable(info.getIconPressed());
+					switch (Integer.parseInt(info.getData()))
+					{
+						case KeyItemInfo.TOOL_NETWORK_MOBILE:
+						{
+							if(Util.isNetWorkMobile(mContext))
+							{
+								holder.icon.setImageDrawable(info.getIconPressed());
+							}
+							else
+							{
+								holder.icon.setImageDrawable(info.getIcon());
+							}
+						}
+						break;
+						case KeyItemInfo.TOOL_AIRPLANE_MODE:
+						{
+							if(Util.isAirplaneMode(mContext))
+							{
+								holder.icon.setImageDrawable(info.getIconPressed());
+							}
+							else
+							{
+								holder.icon.setImageDrawable(info.getIcon());
+							}
+						}
+						break;
+					default:
+						holder.icon.setImageDrawable(info.getIcon());
+						break;
+					}
 				}
 				else
 				{

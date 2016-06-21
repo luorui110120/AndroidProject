@@ -49,6 +49,7 @@ public class KeyItemInfo {
 	public static final int TOOL_SCREENSHOT = 1;
 	public static final int TOOL_KILL_PROCESS = 2;
 	public static final int TOOL_NETWORK_MOBILE = 3;
+	public static final int TOOL_AIRPLANE_MODE = 4;
 	
 	public KeyItemInfo () {}
 	
@@ -194,6 +195,20 @@ public class KeyItemInfo {
 			
 		}
 			break;
+		case TOOL_AIRPLANE_MODE:
+		{
+			boolean bMode = Util.isAirplaneMode(context);
+			ToolAction.doAirplaneModeSwitch(!bMode);
+			if(!bMode)
+			{
+				L.Toast(R.string.tool_airplane_mode_on, context);
+			}
+			else
+			{
+				L.Toast(R.string.tool_airplane_mode_off, context);
+			}
+		}
+			break;
 		default:
 			break;
 		}
@@ -322,6 +337,11 @@ public class KeyItemInfo {
 				title = context.getString(R.string.key_network_mobile_name);
 				res = R.drawable.ic_network_data;
 				res_pressed = R.drawable.ic_network_data_pressed;
+				break;
+			case TOOL_AIRPLANE_MODE:
+				title = context.getString(R.string.key_airplane_mode_name);
+				res = R.drawable.ic_airplane;
+				res_pressed = R.drawable.ic_airplane_pressed;
 				break;
 			default:
 				break;

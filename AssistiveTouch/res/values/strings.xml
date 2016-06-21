@@ -27,6 +27,7 @@
 	<string name="key_volume_up_name">音量+</string>
 	<string name="key_volume_down_name">音量-</string>
 	<string name="key_network_mobile_name">流量开关</string>
+	<string name="key_airplane_mode_name">飞行模式</string>
 	
 	<string name="user_defined">自定义设置</string>
 	<string name="setting_touch_dot_size">触摸圆点大小</string>
@@ -58,4 +59,7 @@
     <string name="tool_kill_process_fail">获取进程列表失败</string>
     <string name="tool_network_mobile_on">移动网络已打开</string>
     <string name="tool_network_mobile_off">移动网络已关闭</string>
+    
+    <string name="tool_airplane_mode_on">进入飞行模式</string>
+    <string name="tool_airplane_mode_off">退出飞行模式</string>
 </resources>

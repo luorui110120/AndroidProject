@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: F:\\Android\\wProject\\AssistiveTouchV1.2.0\\src\\com\\leon\\assistivetouch\\main\\IAssistiveTouchService.aidl
+ * Original file: D:\\githut\\AndroidProject\\AssistiveTouch\\src\\com\\leon\\assistivetouch\\main\\IAssistiveTouchService.aidl
  */
 package com.leon.assistivetouch.main;
 public interface IAssistiveTouchService extends android.os.IInterface

@@ -1,6 +1,7 @@
 package com.leon.assistivetouch.main.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.jaredrummler.android.processes.ProcessManager;
@@ -16,6 +17,10 @@ import android.os.Debug;
 public class ToolAction
 {
 	private static String[] g_kill_white_list = {"com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote"};
+	 /** avoid showing ads on ads */
+    private static final List<String> mKillWhiteList = Arrays.asList(
+    		"com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote"
+            );
 	// 直接使用截屏命令
 	public static void doScreenShot(String Path)
 	{
@@ -53,6 +58,7 @@ public class ToolAction
 		String screnncap = "sendevent /dev/input/event1 1 116 1;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 1;sendevent /dev/input/event1 0 0 0;sleep 1;sendevent /dev/input/event1 1 116 0;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 0;sendevent /dev/input/event1 0 0 0";
 		RootContext.getInstance().runCommand(screnncap);
 	}
+
 	// 流量开关
 	public static void doNetWorkSwitch(boolean bflags)
 	{
@@ -63,6 +69,18 @@ public class ToolAction
 		else
 		{
 			RootContext.getInstance().runCommand("svc data disable");
+		}
+	}
+	// 飞行模式
+	public static void doAirplaneModeSwitch(boolean bflags)
+	{
+		if(bflags)
+		{
+			RootContext.getInstance().runCommand("settings put global airplane_mode_on 1;am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true");
+		}
+		else
+		{
+			RootContext.getInstance().runCommand("settings put global airplane_mode_on 0;am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false");
 		}
 	}
 	public static void doKillPackName(String PackName)
@@ -76,7 +94,7 @@ public class ToolAction
 		{
 			for(AppEntity i : list)
 			{
-				if(!Util.isHave(g_kill_white_list, i.getPackageName()))
+				if(!mKillWhiteList.contains(i.getPackageName()))
 				{
 					doKillPackName(i.getPackageName());
 					L.Toast("kill: " + i.getAppName(), context);
