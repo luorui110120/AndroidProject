@@ -26,6 +26,7 @@
 	<string name="key_kill_process_name">清理进程</string>
 	<string name="key_volume_up_name">音量+</string>
 	<string name="key_volume_down_name">音量-</string>
+	<string name="key_network_mobile_name">流量开关</string>
 	
 	<string name="user_defined">自定义设置</string>
 	<string name="setting_touch_dot_size">触摸圆点大小</string>
@@ -55,4 +56,6 @@
     
     <string name="tool_kill_process_finish">清理完成</string>
     <string name="tool_kill_process_fail">获取进程列表失败</string>
+    <string name="tool_network_mobile_on">移动网络已打开</string>
+    <string name="tool_network_mobile_off">移动网络已关闭</string>
 </resources>
