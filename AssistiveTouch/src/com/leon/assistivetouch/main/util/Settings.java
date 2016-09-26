@@ -228,6 +228,16 @@ public class Settings implements Constan{
 		mSpref.edit().putBoolean(ENABLE_ITEM_TEXT_KEY, enable).commit();
 	}
 	
+	public String getKillWhiteNames()
+	{
+		return mSpref.getString(KILL_WHITE_NAMES_KEY, "");
+	}
+	
+	public void setKillWhiteNames(String value)
+	{
+		mSpref.edit().putString(KILL_WHITE_NAMES_KEY, value).commit();
+	}
+	
 	public boolean isEnableItemText () {
 		return isEnableItemText;
 	}

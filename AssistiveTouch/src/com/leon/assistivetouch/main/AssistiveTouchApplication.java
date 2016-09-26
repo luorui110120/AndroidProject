@@ -8,6 +8,7 @@ import com.leon.assistivetouch.main.util.CrashHandler;
 import com.leon.assistivetouch.main.util.L;
 import com.leon.assistivetouch.main.util.RootContext;
 import com.leon.assistivetouch.main.util.Settings;
+import com.leon.assistivetouch.main.util.ToolAction;
 
 import android.app.AlarmManager;
 import android.app.Application;
@@ -52,6 +53,15 @@ public class AssistiveTouchApplication extends Application {
 		if (!root) {
 			Toast.makeText(this, R.string.no_root_tip, Toast.LENGTH_LONG)
 					.show();
+		}
+		String killWhites = Settings.getInstance(this).getKillWhiteNames();
+		if(killWhites.equals(""))
+		{
+			Settings.getInstance(this).setKillWhiteNames(ToolAction.getKillWhiteList());
+		}
+		else
+		{
+			ToolAction.setKillWhiteList(killWhites);
 		}
 		Intent i = new Intent(AssistiveTouchService.ASSISTIVE_TOUCH_START_ACTION);
 		startService(i);

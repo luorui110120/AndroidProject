@@ -18,9 +18,25 @@ public class ToolAction
 {
 	private static String[] g_kill_white_list = {"com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote"};
 	 /** avoid showing ads on ads */
-    private static final List<String> mKillWhiteList = Arrays.asList(
-    		"com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote"
-            );
+    private static List<String> mKillWhiteList = Constan.KILL_WHITE_LIST;
+    public static void setKillWhiteList(String whiteStr)
+    {
+    	String[] whiteStrs = whiteStr.split(";");
+    	mKillWhiteList = new ArrayList<String>();
+    	for(String i : whiteStrs)
+    	{
+    		mKillWhiteList.add(i);
+    	}
+    }
+    public static String getKillWhiteList()
+    {
+    	String res= "";
+    	for(String i : mKillWhiteList)
+    	{
+    		res +=i + ";";
+    	}
+    	return res;
+    }
 	// 直接使用截屏命令
 	public static void doScreenShot(String Path)
 	{

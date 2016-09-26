@@ -1,5 +1,8 @@
 package com.leon.assistivetouch.main.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 /** 
  * 类名      Constan.java
  * 说明  配置文件
@@ -49,6 +52,8 @@ public interface Constan {
 	public static final String TOUCH_DOT_TRANSPARENCY_KEY = "touch_dot_transparency";
 	public static final String TOUCH_DOT_SIZE_KEY = "touch_dot_size";
 	
+	public static final String KILL_WHITE_NAMES_KEY = "kill_white_names";
+	
 	// 按键自定义设置
 	public static final String TOUCH_MAIN_ITEM_DATA = "main_item_data";
 	public static final String TOUCH_MAIN_ITEM_DATA_1 = TOUCH_MAIN_ITEM_DATA + 1;
@@ -71,4 +76,7 @@ public interface Constan {
 	public static final String TOUCH_MAIN_ITEM_TYPE_7 = TOUCH_MAIN_ITEM_TYPE + 7;
 	public static final String TOUCH_MAIN_ITEM_TYPE_8 = TOUCH_MAIN_ITEM_TYPE + 8;
 	public static final String TOUCH_MAIN_ITEM_TYPE_9 = TOUCH_MAIN_ITEM_TYPE + 9;
+	
+	// 默认 kill 白名单
+	public static final List<String> KILL_WHITE_LIST = Arrays.asList("com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote");
 }
