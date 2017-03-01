@@ -133,6 +133,7 @@ public class ToolAction
      */  
 	public static List<AppEntity> getAndroidProcess(Context context) {  
         List<AppEntity> resule = new ArrayList<AppEntity>();  
+        List<String> listPkg = new ArrayList<String>();  
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);  
         PackageManager pm = context.getPackageManager();  
         AppUtils proutils = new AppUtils(context);  
@@ -141,9 +142,9 @@ public class ToolAction
             return null;  
         }  
         for (AndroidAppProcess info : listInfo) {  
-            ApplicationInfo app = proutils.getApplicationInfo(info.name);  
+            ApplicationInfo app = proutils.getApplicationInfo(info.getPackageName());  
             // 过滤自己当前的应用  
-            if (app == null || context.getPackageName().equals(app.packageName)) {  
+            if (app == null || context.getPackageName().equals(app.packageName) || listPkg.contains(app.packageName)) {  
                 continue;  
             }  
             // 过滤系统的应用  
@@ -161,6 +162,7 @@ public class ToolAction
             int temp = (int) (memSize * 100);  
             memSize = temp / 100.0;  
             ent.setMemorySize(memSize);//应用所占内存的大小  
+            listPkg.add(ent.getPackageName());
             resule.add(ent);  
         }  
         return resule;  
