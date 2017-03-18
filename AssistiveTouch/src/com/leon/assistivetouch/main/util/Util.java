@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -986,4 +987,49 @@ public class Util {
 	{
 		return Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0) == 1;
 	}
+	//判断文件是否存在  
+    public static boolean fileIsExists(String strFile)  
+    {  
+        try  
+        {  
+            File f=new File(strFile);  
+            return f.exists(); 
+  
+        }  
+        catch (Exception e)  
+        {  
+            return false;  
+        }  
+    }  
+	public static boolean assetsToFile(Context context, String assetsName, String tagFile, boolean bReplace, String chmodtype)
+	{
+		try {
+			   InputStream in = context.getAssets().open(assetsName);
+			   File dir = new File(tagFile);
+			   if (bReplace && (dir.exists())) {
+			    dir.delete();
+			   }
+			   else if (dir.exists())
+			   {
+				   in.close();
+				   return true;
+			   }
+			   if (in.available() == 0) {
+			    return false;
+			   }
+			   FileOutputStream out = new FileOutputStream(tagFile);
+			   int read;
+			   byte[] buffer = new byte[4096];
+			   while ((read = in.read(buffer)) > 0) {
+			    out.write(buffer, 0, read);
+			   }
+			   out.close();
+			   in.close();
+			   RootContext.do_exec("chmod " +chmodtype + " "+ tagFile);
+			   return true;
+			  } catch (IOException e) {
+				  return false;
+			}
+	}
+	
 }

@@ -126,11 +126,19 @@ public class Settings implements Constan{
 	}
 	
 	public boolean isEnableAutoUpdate () {
-		return mSpref.getBoolean(ENABLE_AUTO_UPDATE_KEY, true);
+		return mSpref.getBoolean(ENABLE_AUTO_UPDATE_KEY, false);
 	}
 	
 	public void setEnableAutoUpdate (boolean enable) {
 		mSpref.edit().putBoolean(ENABLE_AUTO_UPDATE_KEY, enable).commit();
+	}
+	
+	public boolean isSaveTopPkg () {
+		return mSpref.getBoolean(ENABLE_SAVE_TOP_PKG_KEY, true);
+	}
+	
+	public void setSaveTopPkg (boolean enable) {
+		mSpref.edit().putBoolean(ENABLE_SAVE_TOP_PKG_KEY, enable).commit();
 	}
 	
 	public boolean isEnableAssistiveTouch () {

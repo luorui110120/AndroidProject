@@ -16,7 +16,7 @@ import android.os.Debug;
 
 public class ToolAction
 {
-	private static String[] g_kill_white_list = {"com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote"};
+//	private static String[] g_kill_white_list = {"com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote", "com.tencent.mm"};
 	 /** avoid showing ads on ads */
     private static List<String> mKillWhiteList = Constan.KILL_WHITE_LIST;
     public static void setKillWhiteList(String whiteStr)
@@ -106,11 +106,36 @@ public class ToolAction
 	public static void doKillProcess(Context context)
 	{
 		List<AppEntity> list = getAndroidProcess(context);
+		String save_top_pkg_str = "";
+		if(Settings.getInstance().isSaveTopPkg())
+		{
+			String acts = RootContext.do_exec("su -c /data/data/" + context.getPackageName() + "/toppkg.sh");
+			if(!Util.isStringNull(acts))
+			{
+				String [] strs = acts.split(" ");
+				
+				int i = 0;
+				for(i = 0; i < strs.length; i++)
+				{
+					if(strs[i].indexOf('/') > 0)
+					{
+						break;
+					}
+				}
+				if(i > 0 && i != strs.length)
+				{
+					save_top_pkg_str = strs[i].split("/")[0];
+				}
+				
+			}
+			
+		}
 		if(list != null)
 		{
 			for(AppEntity i : list)
 			{
-				if(!mKillWhiteList.contains(i.getPackageName()))
+				if(!mKillWhiteList.contains(i.getPackageName()) 
+						&& !save_top_pkg_str.equals(i.getPackageName()))
 				{
 					doKillPackName(i.getPackageName());
 					L.Toast("kill: " + i.getAppName(), context);

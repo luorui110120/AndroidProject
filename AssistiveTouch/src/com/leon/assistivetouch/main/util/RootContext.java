@@ -1,8 +1,11 @@
 package com.leon.assistivetouch.main.util;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -188,4 +191,33 @@ public class RootContext {
 			exec = null;
 		}
 	}
+	
+	public static String do_exec(String s)
+    {
+        String s1 = "\n";
+        BufferedReader bufferedreader;
+        InputStream inputstream;
+        StringBuilder s2buf = new StringBuilder();
+		try
+		{
+			inputstream = Runtime.getRuntime().exec(s).getInputStream();
+	        InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
+	        bufferedreader = new BufferedReader(inputstreamreader);
+	        final char buf[] = new char[1024];
+			int read = 0;
+			while ((read = bufferedreader.read(buf)) != -1) {
+				if (s2buf != null)
+					s2buf.append(buf, 0, read);
+			}
+			s1 = s2buf.toString();
+		} catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			s1 = "";
+		}
+        return s1;
+    }
+	
+    
 }

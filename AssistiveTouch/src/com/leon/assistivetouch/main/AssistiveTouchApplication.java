@@ -1,5 +1,6 @@
 package com.leon.assistivetouch.main;
 
+import java.io.File;
 import java.util.Properties;
 
 import com.leon.assistivetouch.main.system.WebserviceTask;
@@ -9,6 +10,7 @@ import com.leon.assistivetouch.main.util.L;
 import com.leon.assistivetouch.main.util.RootContext;
 import com.leon.assistivetouch.main.util.Settings;
 import com.leon.assistivetouch.main.util.ToolAction;
+import com.leon.assistivetouch.main.util.Util;
 
 import android.app.AlarmManager;
 import android.app.Application;
@@ -36,17 +38,31 @@ public class AssistiveTouchApplication extends Application {
 
 	private static final String TAG = "AssistiveTouchApplication";
 	private static AssistiveTouchApplication instance;
+	private static final String defaultSetting = "com.leon.assistivetouch.main_preferences.xml";
+
 	
 	private static final int NOTIFICATION_ID = 56789065;
 	private PendingIntent mUpdateIntent = null;
 
+	
+	protected void attachBaseContext(Context base)
+	{
+		super.attachBaseContext(base);
+		String share_dir = "/data/data/" + getPackageName() + "/shared_prefs";
+		boolean bfile = Util.fileIsExists(share_dir);
+		if(!bfile && new File(share_dir).mkdirs())
+		{
+			RootContext.do_exec("chmod 0771 " + share_dir);
+			Util.assetsToFile(this, defaultSetting, "/data/data/" + getPackageName() + "/shared_prefs/" + defaultSetting, true, "0660");
+		}
+		Util.assetsToFile(this, "toppkg.sh", "/data/data/" + getPackageName() + "/toppkg.sh", false, "0755");
+	}
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		L.d(TAG, "AssistiveTouchApplication oncreate");
 		instance = this;
 		CrashHandler.init(this);
-
 		boolean root = RootContext.hasRootAccess(this);
 		RootContext.getInstance();
 		Settings.getInstance(this).setRoot(root);

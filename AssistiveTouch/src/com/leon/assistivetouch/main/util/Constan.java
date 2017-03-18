@@ -46,6 +46,7 @@ public interface Constan {
 	public static final String ENABLE_LONG_PRESS_KEY = "enable_long_press";
 	public static final String ENABLE_DOUBLE_TAP_KEY = "enable_double_tap";
 	public static final String ENABLE_AUTO_UPDATE_KEY = "enable_auto_update";
+	public static final String ENABLE_SAVE_TOP_PKG_KEY = "enable_save_top_pkg";
 	public static final String ENABLE_ITEM_TEXT_KEY = "enable_item_text";
 	public static final String ENABLE_CLICK_EVENT_KEY = "enable_click_event";
 	
@@ -78,5 +79,5 @@ public interface Constan {
 	public static final String TOUCH_MAIN_ITEM_TYPE_9 = TOUCH_MAIN_ITEM_TYPE + 9;
 	
 	// 默认 kill 白名单
-	public static final List<String> KILL_WHITE_LIST = Arrays.asList("com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote");
+	public static final List<String> KILL_WHITE_LIST = Arrays.asList("com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote", "com.tencent.mm");
 }

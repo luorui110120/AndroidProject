@@ -9,12 +9,14 @@
 	<string name="service_settings_touch_panel">虚拟面板设置</string>
 	<string name="enable_boot_start">开机启动</string>
 	<string name="enable_auto_update">自动更新</string>
+	<string name="enable_save_top_pkg">保留顶层应用</string>
 	<string name="find_update_title">发现新版本的 虚拟按键助手</string>
 	<string name="find_update_message">点击下载</string>
 	<string name="author_info">作者:smile</string>
 	<string name="email_info">Email:lowlowsmile@gmail.com</string>
 	<string name="version_code">版本:%1$s</string>
 	<string name="no_root_tip">很抱歉该应用需要root权限才能正常使用</string>
+	<string name="set_default_deploy">重新启动应用默认配置生效</string>
 	
 	<string name="key_home_name">主界面</string>
 	<string name="key_back_name">返回</string>

@@ -134,6 +134,11 @@ public class MainActivity extends Activity implements OnClickListener{
     	auto_update_box.setChecked(enable);
     	auto_update_box.setOnCheckedChangeListener(mOnCheckedChangeListener);
     	
+    	CheckBox save_top_pkg_box = (CheckBox) findViewById(R.id.enable_save_top_pkg_checkbox);
+    	enable = mSetting.isSaveTopPkg();
+    	save_top_pkg_box.setChecked(enable);
+    	save_top_pkg_box.setOnCheckedChangeListener(mOnCheckedChangeListener);
+    	
     	TextView version = (TextView) findViewById(R.id.version_textview);
     	String name = AssistiveTouchApplication.getVersionName(this);
 		String v = getString(R.string.version_code, name);
@@ -213,6 +218,8 @@ public class MainActivity extends Activity implements OnClickListener{
 				} else {
 					app.cancelAutoUpdate();
 				}
+			} else if (buttonView.getId() == R.id.enable_save_top_pkg_checkbox){
+				mSetting.setSaveTopPkg(isChecked);
 			}
 		}
 		
