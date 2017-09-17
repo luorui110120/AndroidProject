@@ -10,17 +10,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-import android.content.Context;
+import com.leon.assistivetouch.main.AssistiveTouchApplication;
 
-/** 
- * 类名      RootContext.java
- * 说明  获取root权限
- * 创建日期 2012-8-21
- * 作者  LiWenLong
- * Email lendylongli@gmail.com
- * 更新时间  $Date$
- * 最后更新者 $Author$
-*/
+import android.content.Context;
+import eu.chainfire.libsuperuser.Shell;
+
+/**
+ * 类名 RootContext.java 说明 获取root权限 创建日期 2012-8-21 作者 LiWenLong Email
+ * lendylongli@gmail.com 更新时间 $Date$ 最后更新者 $Author$
+ */
 public class RootContext {
 	private static RootContext instance = null;
 	private static Object mLock = new Object();
@@ -32,7 +30,7 @@ public class RootContext {
 		this.mShell = cmd;
 		init();
 	}
-	
+
 	public static RootContext getInstance() {
 		if (instance != null) {
 			return instance;
@@ -46,7 +44,7 @@ public class RootContext {
 						instance = new RootContext("/system/xbin/su");
 					} catch (Exception e2) {
 						try {
-							instance = new RootContext("/system/bin/su");
+							instance = new RootContext("/su/bin/su");
 						} catch (Exception e3) {
 							e3.printStackTrace();
 						}
@@ -62,8 +60,8 @@ public class RootContext {
 			this.o.close();
 			this.p.destroy();
 		}
-		this.p = Runtime.getRuntime().exec(this.mShell);
-		this.o = this.p.getOutputStream();
+		this.p = Runtime.getRuntime().exec(this.mShell + "\n");
+		this.o = new DataOutputStream(this.p.getOutputStream());
 		system("LD_LIBRARY_PATH=/vendor/lib:/system/lib ");
 	}
 
@@ -82,12 +80,19 @@ public class RootContext {
 	}
 
 	public void runCommand(String cmd) {
-		system(cmd);
+	//	system(cmd);
+		final StringBuilder res = new StringBuilder();
+		try {
+			Context ctx = AssistiveTouchApplication.getInstance().getApplicationContext();
+			final ThreadRunner2 runner = new ThreadRunner2(cmd, res);
+			runner.start();
+		} catch (Exception e) {
+		}
 	}
 
 	/**
-	 * 判断是否已经root了 
-	 * */
+	 * 判断是否已经root了
+	 */
 	public static boolean hasRootAccess(Context ctx) {
 		final StringBuilder res = new StringBuilder();
 		try {
@@ -100,9 +105,8 @@ public class RootContext {
 
 	/**
 	 * 以root的权限运行命令
-	 * */
-	public static int runCommandAsRoot(Context ctx, String script,
-			StringBuilder res) {
+	 */
+	public static int runCommandAsRoot(Context ctx, String script, StringBuilder res) {
 		final File file = new File(ctx.getCacheDir(), "secopt.sh");
 		final ScriptRunner runner = new ScriptRunner(file, script, res);
 		runner.start();
@@ -138,8 +142,7 @@ public class RootContext {
 				file.createNewFile();
 				final String abspath = file.getAbsolutePath();
 				Runtime.getRuntime().exec("chmod 777 " + abspath).waitFor();
-				final OutputStreamWriter out = new OutputStreamWriter(
-						new FileOutputStream(file));
+				final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file));
 				if (new File("/system/bin/sh").exists()) {
 					out.write("#!/system/bin/sh\n");
 				}
@@ -156,8 +159,7 @@ public class RootContext {
 				os.flush();
 				os.close();
 
-				InputStreamReader r = new InputStreamReader(
-						exec.getInputStream());
+				InputStreamReader r = new InputStreamReader(exec.getInputStream());
 				final char buf[] = new char[1024];
 				int read = 0;
 				while ((read = r.read(buf)) != -1) {
@@ -192,32 +194,58 @@ public class RootContext {
 		}
 	}
 	
-	public static String do_exec(String s)
-    {
-        String s1 = "\n";
-        BufferedReader bufferedreader;
-        InputStream inputstream;
-        StringBuilder s2buf = new StringBuilder();
-		try
-		{
+	private static final class ThreadRunner2 extends Thread {
+		private final String cmd;
+		private final StringBuilder res;
+		public int exitcode = -1;
+		private Process exec;
+
+		public ThreadRunner2(String cmd, StringBuilder res) {
+			this.cmd = cmd;
+			this.res = res;
+		}
+
+		@Override
+		public void run() {
+			try {
+				Shell.SU.run(cmd);
+				
+			}  catch (Exception ex) {
+				if (res != null)
+					res.append("\n" + ex);
+			} finally {
+				destroy();
+			}
+		}
+
+		public synchronized void destroy() {
+			if (exec != null)
+				exec.destroy();
+			exec = null;
+		}
+	}
+	public static String do_exec(String s) {
+		String s1 = "\n";
+		BufferedReader bufferedreader;
+		InputStream inputstream;
+		StringBuilder s2buf = new StringBuilder();
+		try {
 			inputstream = Runtime.getRuntime().exec(s).getInputStream();
-	        InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
-	        bufferedreader = new BufferedReader(inputstreamreader);
-	        final char buf[] = new char[1024];
+			InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
+			bufferedreader = new BufferedReader(inputstreamreader);
+			final char buf[] = new char[1024];
 			int read = 0;
 			while ((read = bufferedreader.read(buf)) != -1) {
 				if (s2buf != null)
 					s2buf.append(buf, 0, read);
 			}
 			s1 = s2buf.toString();
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			s1 = "";
 		}
-        return s1;
-    }
-	
-    
+		return s1;
+	}
+
 }

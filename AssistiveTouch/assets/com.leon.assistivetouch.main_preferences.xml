@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <string name="main_item_data8">1</string>
+    <string name="main_item_data4">4</string>
+    <int name="main_item_type7" value="2" />
+    <int name="main_item_type9" value="3" />
+    <int name="main_item_type1" value="3" />
+    <boolean name="enable_auto_update" value="false" />
+    <int name="main_item_type5" value="3" />
+    <int name="main_item_type4" value="2" />
+    <int name="init_version_code" value="7" />
+    <int name="touch_dot_pos_x" value="1136" />
+    <string name="main_item_data5">6</string>
+    <int name="touch_dot_transparency" value="111" />
+    <boolean name="enable_assisitive" value="true" />
+    <string name="main_item_data2">3</string>
+    <string name="main_item_data6">7</string>
+    <int name="main_item_type3" value="2" />
+    <int name="main_item_type8" value="3" />
+    <boolean name="enable_save_top_pkg" value="true" />
+    <int name="touch_dot_pos_y" value="1068" />
+    <string name="main_item_data9">2</string>
+    <boolean name="enable_item_text" value="true" />
+    <int name="main_item_type2" value="2" />
+    <boolean name="enable_virbator" value="false" />
+    <boolean name="enable_boot_start" value="true" />
+    <string name="kill_white_names">com.baidu.input_miv6;com.anyview;com.swimmi.windnote;com.tencent.mm;eu.chainfire.supersu</string>
+    <string name="main_item_data1">8</string>
+    <string name="main_item_data3">2</string>
+    <int name="main_item_type6" value="3" />
+    <string name="main_item_data7">1</string>
+</map>

@@ -80,4 +80,22 @@ public interface Constan {
 	
 	// 默认 kill 白名单
 	public static final List<String> KILL_WHITE_LIST = Arrays.asList("com.baidu.input_miv6", "com.anyview", "com.swimmi.windnote", "com.tencent.mm");
+	// 截屏 命令
+	public static final List<ScreenInfo> PHONE_MODEL_SCREEN = Arrays.asList(new ScreenInfo("Nexus 6", "sendevent /dev/input/event1 1 116 1;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 1;sendevent /dev/input/event1 0 0 0;sleep 1;sendevent /dev/input/event1 1 116 0;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 0;sendevent /dev/input/event1 0 0 0"),
+																new ScreenInfo("Nexus 6P", "sendevent /dev/input/event2 1 116 1;sendevent /dev/input/event2 0 0 0;sendevent /dev/input/event2 1 114 1;sendevent /dev/input/event2 0 0 0;sleep 1;sendevent /dev/input/event2 1 116 0;sendevent /dev/input/event2 0 0 0;sendevent /dev/input/event2 1 114 0;sendevent /dev/input/event2 0 0 0"));
+	public static class ScreenInfo{
+		String model;
+		String cmd;
+		public ScreenInfo(String inModel, String inCmd)
+		{
+			this.model = inModel;
+			this.cmd = inCmd;
+		}
+		public String getModel(){
+			return model;
+		}
+		public String getCMD(){
+			return cmd;
+		}
+	}
 }

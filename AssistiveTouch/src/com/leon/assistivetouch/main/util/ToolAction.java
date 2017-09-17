@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Debug;
+import eu.chainfire.libsuperuser.Shell;
 
 public class ToolAction
 {
@@ -71,8 +72,15 @@ public class ToolAction
 		/dev/input/event1: 0001 0072 00000000
 		/dev/input/event1: 0000 0000 00000000
 		*/
-		String screnncap = "sendevent /dev/input/event1 1 116 1;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 1;sendevent /dev/input/event1 0 0 0;sleep 1;sendevent /dev/input/event1 1 116 0;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 0;sendevent /dev/input/event1 0 0 0";
-		RootContext.getInstance().runCommand(screnncap);
+//		String screnncap_n6 = "sendevent /dev/input/event1 1 116 1;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 1;sendevent /dev/input/event1 0 0 0;sleep 1;sendevent /dev/input/event1 1 116 0;sendevent /dev/input/event0 0 0 0;sendevent /dev/input/event1 1 114 0;sendevent /dev/input/event1 0 0 0";
+//		String screnncap_n6p = "sendevent /dev/input/event2 1 116 1;sendevent /dev/input/event2 0 0 0;sendevent /dev/input/event2 1 114 1;sendevent /dev/input/event2 0 0 0;sleep 1;sendevent /dev/input/event2 1 116 0;sendevent /dev/input/event2 0 0 0;sendevent /dev/input/event2 1 114 0;sendevent /dev/input/event2 0 0 0";
+		for(Constan.ScreenInfo info : Constan.PHONE_MODEL_SCREEN)
+		{
+			if(info.getModel().equals(android.os.Build.MODEL))
+			{
+				RootContext.getInstance().runCommand(info.getCMD());
+			}
+		}
 	}
 
 	// 流量开关
@@ -109,26 +117,30 @@ public class ToolAction
 		String save_top_pkg_str = "";
 		if(Settings.getInstance().isSaveTopPkg())
 		{
-			String acts = RootContext.do_exec("su -c /data/data/" + context.getPackageName() + "/toppkg.sh");
-			if(!Util.isStringNull(acts))
+			List<String> actlist = Shell.SU.run("dumpsys activity | grep mFocusedActivity");
+			if(actlist != null && actlist.size() > 0)
 			{
-				String [] strs = acts.split(" ");
-				
-				int i = 0;
-				for(i = 0; i < strs.length; i++)
+				String acts =  actlist.get(0);//RootContext.do_exec("su -c /data/data/" + context.getPackageName() + "/toppkg.sh");
+				if(!Util.isStringNull(acts))
 				{
-					if(strs[i].indexOf('/') > 0)
+					String [] strs = acts.split(" ");
+					
+					int i = 0;
+					for(i = 0; i < strs.length; i++)
 					{
-						break;
+						if(strs[i].indexOf('/') > 0)
+						{
+							break;
+						}
 					}
+					if(i > 0 && i != strs.length)
+					{
+					//	L.Toast("kill: " + strs[i], context);
+						save_top_pkg_str = strs[i].split("/")[0];
+					}
+					
 				}
-				if(i > 0 && i != strs.length)
-				{
-					save_top_pkg_str = strs[i].split("/")[0];
-				}
-				
 			}
-			
 		}
 		if(list != null)
 		{
@@ -162,11 +174,12 @@ public class ToolAction
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);  
         PackageManager pm = context.getPackageManager();  
         AppUtils proutils = new AppUtils(context);  
-        List<AndroidAppProcess> listInfo = ProcessManager.getRunningAppProcesses();  
+        //List<AndroidAppProcess> listInfo = ProcessManager.getRunningAppProcesses();  
+        List<NewApiProcessManager.Process> listInfo= NewApiProcessManager.getRunningApps(); 
         if(listInfo.isEmpty() || listInfo.size() == 0){  
             return null;  
         }  
-        for (AndroidAppProcess info : listInfo) {  
+        for (NewApiProcessManager.Process info : listInfo) {  
             ApplicationInfo app = proutils.getApplicationInfo(info.getPackageName());  
             // 过滤自己当前的应用  
             if (app == null || context.getPackageName().equals(app.packageName) || listPkg.contains(app.packageName)) {  

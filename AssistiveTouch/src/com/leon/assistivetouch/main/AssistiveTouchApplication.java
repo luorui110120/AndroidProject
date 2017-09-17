@@ -55,7 +55,7 @@ public class AssistiveTouchApplication extends Application {
 			RootContext.do_exec("chmod 0771 " + share_dir);
 			Util.assetsToFile(this, defaultSetting, "/data/data/" + getPackageName() + "/shared_prefs/" + defaultSetting, true, "0660");
 		}
-		Util.assetsToFile(this, "toppkg.sh", "/data/data/" + getPackageName() + "/toppkg.sh", false, "0755");
+	//	Util.assetsToFile(this, "toppkg.sh", "/data/data/" + getPackageName() + "/toppkg.sh", false, "0755");
 	}
 	@Override
 	public void onCreate() {
