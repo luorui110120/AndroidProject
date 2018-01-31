@@ -11,6 +11,7 @@ public interface XEditor {
     String NODE_APPLICATION="application";
     String NODE_METADATA="meta-data";
     String NODE_ACTIVITY="activity";
+    String NODE_ACTIVITY_ALIAS="activity-alias";
     String NODE_SERVICE="service";
 
     String NODE_USER_PREMISSION ="uses-permission";

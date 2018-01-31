@@ -105,11 +105,11 @@ public class ActivityEditor extends BaseEditor<ActivityEditor.EditorInfo> {
 
         BTagNode meta_data = null;
         int activityindex = doc.getStringBlock().putString(NODE_ACTIVITY);
-      
+        int activityaliasindex = doc.getStringBlock().putString(NODE_ACTIVITY_ALIAS);
         end:for(BXMLNode node : children){
             BTagNode m = (BTagNode)node;
             //it's a risk that the value for "android:name" maybe not String
-            if(activityindex == m.getName())
+            if(activityindex == m.getName() || activityaliasindex == m.getName())
             {
             	List<BXMLNode> children2 = node.getChildren();
             	if(children2 == null)

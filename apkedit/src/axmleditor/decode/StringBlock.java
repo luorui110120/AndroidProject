@@ -121,8 +121,17 @@ public class StringBlock implements IAXMLSerialize{
 				
 				for(int i =0; i < mStringsCount ; i++){
 					int offset = mPerStrOffset[i];
-		        	short len = toShort(rawStrings[offset], rawStrings[offset+1]);
-					mStrings.add(i,new String(rawStrings,offset+2, len*2, Charset.forName("UTF-16LE")));
+					// 修复 读取字符串bug
+					if((mEncoder & 0x100) > 0)
+					{
+						short len = rawStrings[offset];
+						mStrings.add(i,new String(rawStrings,offset+2, len, Charset.forName("UTF-8")));
+					}
+					else{
+						short len = toShort(rawStrings[offset], rawStrings[offset+1]);
+						mStrings.add(i,new String(rawStrings,offset+2, len*2, Charset.forName("UTF-16LE")));
+					}
+		        	
 				}
 			}
 			
@@ -174,10 +183,23 @@ public class StringBlock implements IAXMLSerialize{
 			
 			if(mStrings != null){
 				for(String s : mStrings){
-					byte[] raw = s.getBytes("UTF-16LE");
-					size += writer.writeShort((short)(s.length()));
-					size += writer.writeByteArray(raw);
-					size += writer.writeShort((short)0);
+					if((mEncoder & 0x100) > 0)
+					{
+						byte[] raw = s.getBytes("UTF-8");
+						writer.writeByte((byte)(s.length()));
+						size ++;
+						writer.writeByte((byte)(s.length()));
+						size ++;
+						size += writer.writeByteArray(raw);
+						size += writer.writeShort((short)0);
+					}
+					else{
+						byte[] raw = s.getBytes("UTF-16LE");
+						size += writer.writeShort((short)(s.length()));
+						size += writer.writeByteArray(raw);
+						size += writer.writeShort((short)0);
+					}
+					
 				}
 			}
 			
